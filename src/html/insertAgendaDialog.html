@@ -1,0 +1,73 @@
+<!doctype html>
+<html class="theme-light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
+    />
+  </head>
+
+  <body>
+    <form id="form">
+      <div class="field">
+        <div class="control">
+          <div class="select">
+            <input class="input" type="date" id="dateInput" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <div class="select">
+            <select id="eventSelect" name="eventId">
+              <option>読み込み中...</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <button type="submit" class="button is-primary">
+            アジェンダ挿入
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <script>
+      const updateSelect = (events) => {
+        const select = document.getElementById("eventSelect");
+        select.innerHTML = "";
+        events.forEach((event) => {
+          const option = document.createElement("option");
+          option.value = event.id;
+          option.textContent = event.title;
+          select.appendChild(option);
+        });
+      };
+
+      // 日付選択時
+      const dateInput = document.getElementById("dateInput");
+      dateInput.addEventListener("change", (e) => {
+        google.script.run
+          .withSuccessHandler(updateSelect)
+          .getDateEventItems(e.target.value);
+      });
+
+      // 実行
+      const form = document.getElementById("form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        google.script.run
+          .withSuccessHandler(() => {
+            google.script.host.close();
+          })
+          .insertAgenda(formData.get("eventId"));
+      });
+    </script>
+  </body>
+</html>

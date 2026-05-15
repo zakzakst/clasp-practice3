@@ -1,0 +1,59 @@
+<!doctype html>
+<html class="theme-light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
+    />
+  </head>
+
+  <body>
+    <form id="form">
+      <div class="field">
+        <div class="control">
+          <div class="select">
+            <select id="templateSelect" name="templateId">
+              <option>読み込み中...</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <button type="submit" class="button is-primary">
+            テンプレート挿入
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <script>
+      // 初期表示
+      const renderTabs = (tabs) => {
+        const select = document.getElementById("templateSelect");
+        select.innerHTML = "";
+        tabs.forEach((tab) => {
+          const option = document.createElement("option");
+          option.value = tab.id;
+          option.textContent = tab.title;
+          select.appendChild(option);
+        });
+      };
+      google.script.run.withSuccessHandler(renderTabs).getTemplateTabItems();
+
+      // 実行
+      const form = document.getElementById("form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        google.script.run
+          .withSuccessHandler(() => {
+            google.script.host.close();
+          })
+          .insertTemplate(formData.get("templateId"));
+      });
+    </script>
+  </body>
+</html>

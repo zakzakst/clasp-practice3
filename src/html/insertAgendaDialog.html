@@ -13,7 +13,15 @@
       <div class="field">
         <div class="control">
           <div class="select">
-            <select id="templateSelect" name="templateId">
+            <input class="input" type="date" id="dateInput" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <div class="select">
+            <select id="eventSelect" name="eventId">
               <option>読み込み中...</option>
             </select>
           </div>
@@ -23,25 +31,31 @@
       <div class="field">
         <div class="control">
           <button type="submit" class="button is-primary">
-            テンプレート挿入
+            アジェンダ挿入
           </button>
         </div>
       </div>
     </form>
 
     <script>
-      // 初期表示
-      const updateSelect = (tabs) => {
-        const select = document.getElementById("templateSelect");
+      const updateSelect = (events) => {
+        const select = document.getElementById("eventSelect");
         select.innerHTML = "";
-        tabs.forEach((tab) => {
+        events.forEach((event) => {
           const option = document.createElement("option");
-          option.value = tab.id;
-          option.textContent = tab.title;
+          option.value = event.id;
+          option.textContent = event.title;
           select.appendChild(option);
         });
       };
-      google.script.run.withSuccessHandler(updateSelect).getTemplateTabItems();
+
+      // 日付選択時
+      const dateInput = document.getElementById("dateInput");
+      dateInput.addEventListener("change", (e) => {
+        google.script.run
+          .withSuccessHandler(updateSelect)
+          .getDateEventItems(e.target.value);
+      });
 
       // 実行
       const form = document.getElementById("form");
@@ -52,7 +66,7 @@
           .withSuccessHandler(() => {
             google.script.host.close();
           })
-          .insertTemplate(formData.get("templateId"));
+          .insertAgenda(formData.get("eventId"));
       });
     </script>
   </body>

@@ -7,6 +7,10 @@ type TabItem = {
   title: string;
 };
 
+const showInsertTemplateDialog_ = () => {
+  showDialog_("insertTemplateDialog", "テンプレート選択");
+};
+
 const getTemplateTabItems = (): TabItem[] | undefined => {
   const tabs = DocumentApp.getActiveDocument().getTabs();
   const templateTab = tabs.find((tab) => tab.getTitle() === "テンプレート");
@@ -26,10 +30,6 @@ const getTemplateTabItems = (): TabItem[] | undefined => {
     });
 
   return childTabItems;
-};
-
-const showInsertTemplateDialog_ = () => {
-  showDialog_("insertTemplateDialog", "テンプレート選択");
 };
 
 const insertTemplate = (id: string) => {

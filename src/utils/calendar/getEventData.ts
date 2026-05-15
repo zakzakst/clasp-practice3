@@ -4,6 +4,19 @@ type EventData = {
   end: string;
   description: string;
   calendarLink: string;
+  // guestNames: string[];
+};
+
+const sanitizeEventDescription_ = (html: string): string => {
+  // 加工用の文字列を作成
+  let result = html + "";
+  // aタグ変換
+  result = result.replace(/<a[^>]*href="([^"]+)"[^>]*>(.*?)<\/a>/gi, "$2\n$1");
+  // br変換
+  result = result.replace(/<br\s*\/?>/gi, "\n");
+  // タグ除去
+  result = result.replace(/<[^>]+>/g, "");
+  return result;
 };
 
 export const getEventData_ = (
@@ -12,16 +25,16 @@ export const getEventData_ = (
   const title = event.getTitle();
   const start = `${event.getStartTime().toLocaleDateString()} ${event.getStartTime().toLocaleTimeString()}`;
   const end = `${event.getEndTime().toLocaleDateString()} ${event.getEndTime().toLocaleTimeString()}`;
-
-  // TODO: descriptionのサニタイズ
-  const description = event.getDescription() || "";
-
+  const description = sanitizeEventDescription_(event.getDescription()) || "";
   // 参考：https://wywy.jp/blogs/gas/2023-10-07-1
   const baseUrl = "https://calendar.google.com/calendar/event?eid=";
   const splitEventId = event.getId().split("@");
   const calendarLink = `${baseUrl}${Utilities.base64Encode(splitEventId[0] + " " + event.getOriginalCalendarId())}`;
 
   // TODO: 招待した人のリスト取得も対応する
+  // const guestNames = event.getGuestList().map((guest) => {
+  //   return guest.getName();
+  // });
 
   return {
     title,
@@ -29,5 +42,6 @@ export const getEventData_ = (
     end,
     description,
     calendarLink,
+    // guestNames,
   };
 };

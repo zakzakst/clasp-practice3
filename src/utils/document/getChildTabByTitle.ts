@@ -1,4 +1,3 @@
-// TODO: エイリアス設定したい
 import { showAlert_ } from "@document/showAlert";
 
 type TabItem = {

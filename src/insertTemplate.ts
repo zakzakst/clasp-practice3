@@ -1,6 +1,6 @@
-import { showAlert_ } from "./utils/document/showAlert";
-import { showDialog_ } from "./utils/common/showDialog";
-import { copyTabContent_ } from "./utils/document/copyTabContent";
+import { showAlert_ } from "@document/showAlert";
+import { showDialog_ } from "@common/showDialog";
+import { copyTabContent_ } from "@document/copyTabContent";
 
 type TabItem = {
   id: string;

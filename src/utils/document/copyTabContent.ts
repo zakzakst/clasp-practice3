@@ -13,15 +13,19 @@ export const copyTabContent_ = (sourceTabId: string) => {
 
     switch (type) {
       case DocumentApp.ElementType.PARAGRAPH:
-        targetBody.appendParagraph(element);
+        targetBody.appendParagraph(
+          element as GoogleAppsScript.Document.Paragraph,
+        );
         break;
 
       case DocumentApp.ElementType.LIST_ITEM:
-        targetBody.appendListItem(element);
+        targetBody.appendListItem(
+          element as GoogleAppsScript.Document.ListItem,
+        );
         break;
 
       case DocumentApp.ElementType.TABLE:
-        targetBody.appendTable(element);
+        targetBody.appendTable(element as GoogleAppsScript.Document.Table);
         break;
     }
   }

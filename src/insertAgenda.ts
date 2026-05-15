@@ -1,7 +1,8 @@
-import { showDialog_ } from "./utils/common/showDialog";
-import { getChildTabItemByTitle_ } from "./utils/document/getChildTabByTitle";
-import { getDateEventItems_ } from "./utils/calendar/getDateEvents";
-import { copyTabContent_ } from "./utils/document/copyTabContent";
+import { showDialog_ } from "@common/showDialog";
+import { getChildTabItemByTitle_ } from "@document/getChildTabByTitle";
+import { getDateEventItems_ } from "@calendar/getDateEvents";
+import { copyTabContent_ } from "@document/copyTabContent";
+import { getEventData_ } from "@calendar/getEventData";
 
 const showInsertAgendaDialog_ = () => {
   showDialog_("insertAgendaDialog", "カレンダー選択");
@@ -24,22 +25,12 @@ const insertAgenda = (id: string) => {
   // イベント情報を反映
   const document = DocumentApp.getActiveDocument();
   const documentBody = document.getActiveTab().asDocumentTab().getBody();
+  const eventData = getEventData_(event);
 
-  documentBody.replaceText("{{title}}", event.getTitle());
-  documentBody.replaceText(
-    "{{start}}",
-    `${event.getStartTime().toLocaleDateString()} ${event.getStartTime().toLocaleTimeString()}`,
-  );
-  documentBody.replaceText(
-    "{{end}}",
-    `${event.getEndTime().toLocaleDateString()} ${event.getEndTime().toLocaleTimeString()}`,
-  );
-  // TODO: descriptionがhtmlタグの文字列で返ってくる、ハイパーテキストをGoogleドキュメントに落とし込む方法調べる
-  documentBody.replaceText("{{description}}", event.getDescription() || "---");
-
-  // 参考：https://wywy.jp/blogs/gas/2023-10-07-1
-  const baseUrl = "https://calendar.google.com/calendar/event?eid=";
-  const splitEventId = event.getId().split("@");
-  const eventUrl = `${baseUrl}${Utilities.base64Encode(splitEventId[0] + " " + event.getOriginalCalendarId())}`;
-  documentBody.replaceText("{{calendarLink}}", eventUrl || "---");
+  documentBody.replaceText("{{title}}", eventData.title);
+  documentBody.replaceText("{{start}}", eventData.start);
+  documentBody.replaceText("{{end}}", eventData.end);
+  documentBody.replaceText("{{description}}", eventData.description);
+  // TODO: リンク設定したテキストに置換
+  documentBody.replaceText("{{calendarLink}}", eventData.calendarLink);
 };

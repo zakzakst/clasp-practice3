@@ -5,6 +5,7 @@
 - もうちょっとbuild工夫したい
   - jsファイル複数
   - htmlファイルはコピーでなくejsとかxhtmlとか使う
+- prettierにimport order入れたい
 
 ## コマンドメモ
 

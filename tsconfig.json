@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "types": ["google-apps-script", "node"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}

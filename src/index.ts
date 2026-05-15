@@ -1,4 +1,4 @@
-import { menuInit_ } from "./utils/document/menuInit";
+import { menuInit_ } from "@document/menuInit";
 
 const onOpen = () => {
   menuInit_([

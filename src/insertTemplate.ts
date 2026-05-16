@@ -1,6 +1,6 @@
-import { showAlert_ } from "@document/showAlert";
 import { showDialog_ } from "@common/showDialog";
 import { copyTabContent_ } from "@document/copyTabContent";
+import { showAlert_ } from "@document/showAlert";
 
 type TabItem = {
   id: string;
@@ -34,4 +34,8 @@ const getTemplateTabItems = (): TabItem[] | undefined => {
 
 const insertTemplate = (id: string) => {
   copyTabContent_(id);
+
+  // マスタッシュで囲まれた箇所を削除
+  const body = DocumentApp.getActiveDocument().getBody();
+  body.replaceText("\\{\\{[^}]+\\}\\}", "");
 };

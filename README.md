@@ -5,9 +5,7 @@
 - もうちょっとbuild工夫したい
   - jsファイル複数
   - htmlファイルはコピーでなくejsとかxhtmlとか使う
-- prettierにimport order入れたい
 - Advanced Google Servicesの利用試したい
-- ドキュメントの内容をコピーするとき、リストのスタイルが外れることがあるので修正
 
 ## GAS以外の機能
 

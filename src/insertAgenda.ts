@@ -1,9 +1,9 @@
-import { showDialog_ } from "@common/showDialog";
-import { getChildTabItemByTitle_ } from "@document/getChildTabByTitle";
 import { getDateEventItems_ } from "@calendar/getDateEvents";
-import { copyTabContent_ } from "@document/copyTabContent";
 import { getEventData_ } from "@calendar/getEventData";
-import { replaceLinkText_ } from "./utils/document/replaceLinkText";
+import { showDialog_ } from "@common/showDialog";
+import { copyTabContent_ } from "@document/copyTabContent";
+import { getChildTabItemByTitle_ } from "@document/getChildTabByTitle";
+import { replaceLinkText_ } from "@document/replaceLinkText";
 
 const showInsertAgendaDialog_ = () => {
   showDialog_("insertAgendaDialog", "カレンダー選択");
